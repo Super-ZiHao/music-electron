@@ -1,0 +1,10 @@
+dist
+node_modules
+package.json
+**/*.js
+**/*.jsx
+**/*.tsx
+**/*.ts
+**/*.json
+**/*.md
+**/*.yaml

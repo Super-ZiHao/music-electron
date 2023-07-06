@@ -1,0 +1,22 @@
+{
+  // eslint 自动修复
+  "editor.codeActionsOnSave": {
+    "source.fixAll": false,
+    "source.fixAll.eslint": true,
+    "source.fixAll.stylelint": true
+  },
+  "editor.formatOnSave": true, // 保存自动格式化
+  "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
+  "[javascript]": {
+    "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+  },
+  "[vue]": {
+    "editor.defaultFormatter": "Vue.volar"
+  },
+  "stylelint.validate": [
+    "css",
+    "scss",
+    "vue"
+  ],
+  "stylelint.customSyntax": "postcss-scss"
+}
