@@ -1,13 +1,3 @@
-import appStore from '@/store';
-
-export const successMessage = () => {
-  const { num } = storeToRefs(appStore.testStore);
-  ElMessage({
-    message: `成功，当前-${num.value}`,
-    type: 'success',
-  });
-};
-
 // 防抖 ref
 export function useDebouncedRef(value: any, delay = 200) {
   let timeout: any;
@@ -28,3 +18,4 @@ export function useDebouncedRef(value: any, delay = 200) {
   });
 }
 
+// 

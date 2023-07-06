@@ -2,10 +2,13 @@
 import Footer from '@/components/Footer.vue';
 import Header from '@/components/Header.vue';
 import Sidebar from '@/components/Sidebar.vue';
+import useMusicStore from '@/store/useMusicStore';
 
+const { musicInfo, audioRef } = storeToRefs(useMusicStore());
 </script>
 
 <template>
+  <audio :src="musicInfo.url" style="display: none;" ref="audioRef" />
   <div class="container">
     <Header />
     <div class="content">

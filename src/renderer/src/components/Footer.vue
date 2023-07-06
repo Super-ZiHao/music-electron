@@ -1,11 +1,19 @@
 <script lang='ts' setup>
-import { IconPlay, IconNextSong, IconPreviousSong } from '@/components/Icon';
+import { IconPlay, IconNextSong, IconPreviousSong, IconPause } from '@/components/Icon';
+import useMusicStore from '@/store/useMusicStore';
+const { controller } = storeToRefs(useMusicStore());
+const currentTime = ref(controller.value.currentTime);
+
+// 进度
+const a = computed(() => 123);
+console.log(a);
 </script>
 
 <template>
   <footer>
     <!-- 进度条 -->
-    <ElSlider />
+    <ElSlider :show-tooltip="false" :model-value="controller.currentTime" @input="(e) => currentTime = e as number"
+      @change="controller.currentTime = currentTime" />
     <!-- 信息 -->
     <div class="flex gap-8">
       <img class="cover" src="" alt="">
@@ -20,9 +28,10 @@ import { IconPlay, IconNextSong, IconPreviousSong } from '@/components/Icon';
     </div>
     <!-- 控件 -->
     <div class="control">
-      <IconPreviousSong />
-      <IconPlay />
-      <IconNextSong />
+      <IconPreviousSong class="cursor-pointer" />
+      <IconPause class="cursor-pointer" v-if="controller.isPlay" @click="controller.onPause" />
+      <IconPlay class="cursor-pointer" v-else @click="controller.onPlay" />
+      <IconNextSong class="cursor-pointer" />
     </div>
   </footer>
 </template>
@@ -37,6 +46,7 @@ footer {
   height: 60px;
   padding: 0 24px;
   background-color: orange;
+  user-select: none;
 }
 
 .cover {

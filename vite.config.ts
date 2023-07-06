@@ -35,4 +35,7 @@ export default defineConfig({
       '@': resolve(__dirname, 'src/renderer/src')
     }
   },
+  server: {
+    open: true,
+  },
 });
