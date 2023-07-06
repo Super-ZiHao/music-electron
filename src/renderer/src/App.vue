@@ -7,7 +7,6 @@ import useControllerStore from './store/useControllerStore';
 
 const musicInfo = useMusicStore();
 const { audioRef } = toRefs(useControllerStore());
-
 </script>
 
 <template>
