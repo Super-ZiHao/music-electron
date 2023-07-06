@@ -2,9 +2,12 @@
 import Footer from '@/components/Footer.vue';
 import Header from '@/components/Header.vue';
 import Sidebar from '@/components/Sidebar.vue';
-import useMusicStore from '@/store/useMusicStore';
+import useMusicStore from './store/useMusicInfoStore';
+import useControllerStore from './store/useControllerStore';
 
-const { musicInfo, audioRef } = storeToRefs(useMusicStore());
+const musicInfo = useMusicStore();
+const { audioRef } = toRefs(useControllerStore());
+
 </script>
 
 <template>

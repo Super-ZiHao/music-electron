@@ -1,36 +1,52 @@
 <script lang='ts' setup>
 import { IconPlay, IconNextSong, IconPreviousSong, IconPause } from '@/components/Icon';
-import useMusicStore from '@/store/useMusicStore';
-const { controller } = storeToRefs(useMusicStore());
-const currentTime = ref(controller.value.currentTime);
+import useControllerStore from '@/store/useControllerStore';
+import useMusicInfoStore from '@/store/useMusicInfoStore';
+import dayjs from 'dayjs';
+const controllerStore = useControllerStore();
+const musicInfoStore = useMusicInfoStore();
 
+/** 鼠标挪动进度 */
+const mouseSpeed = ref(controllerStore.currentTime / musicInfoStore.time);
 // 进度
-const a = computed(() => 123);
-console.log(a);
+const speed = computed(() => controllerStore.currentTime / musicInfoStore.time * 100);
+
+const flg = ref(false);
+const down = () => {
+  flg.value = true;
+  const up = () => {
+    flg.value = false;
+    document.removeEventListener('mouseup', up);
+  };
+  document.addEventListener('mouseup', up);
+};
 </script>
 
 <template>
   <footer>
     <!-- 进度条 -->
-    <ElSlider :show-tooltip="false" :model-value="controller.currentTime" @input="(e) => currentTime = e as number"
-      @change="controller.currentTime = currentTime" />
+    <ElSlider :show-tooltip="false" :model-value="speed" @mousedown="down" @input="(e) => mouseSpeed = e as number"
+      @change="controllerStore.onChangeTime(mouseSpeed / 100000 * musicInfoStore.time)" />
     <!-- 信息 -->
     <div class="flex gap-8">
-      <img class="cover" src="" alt="">
+      <img class="cover" :src="musicInfoStore.picUrl" alt="">
       <div class="flex items-center column">
         <div class="flex items-center gap-2">
-          <div class="color-white">歌曲名字</div>
+          <div class="color-white">{{ musicInfoStore.name }}</div>
           <div>-</div>
-          <div class="fs-12">歌手</div>
+          <div class="fs-12">{{ musicInfoStore.authorInfo.name }}</div>
         </div>
-        <div class="">02:52 / 03:07</div>
+        <div class="">{{ dayjs(flg ? (mouseSpeed / 100 * musicInfoStore.time) :
+          controllerStore.currentTime).format('mm:ss') }} / {{
+    dayjs(musicInfoStore.time).format('mm:ss') }}
+        </div>
       </div>
     </div>
     <!-- 控件 -->
     <div class="control">
       <IconPreviousSong class="cursor-pointer" />
-      <IconPause class="cursor-pointer" v-if="controller.isPlay" @click="controller.onPause" />
-      <IconPlay class="cursor-pointer" v-else @click="controller.onPlay" />
+      <IconPause class="cursor-pointer" v-if="controllerStore.isPlay" @click="controllerStore.onPause" />
+      <IconPlay class="cursor-pointer" v-else @click="controllerStore.onPlay" />
       <IconNextSong class="cursor-pointer" />
     </div>
   </footer>
