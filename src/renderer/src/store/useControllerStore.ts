@@ -21,7 +21,6 @@ const useControllerStore = defineStore('controller', () => {
 
   /** 当前播放器状况 */
   const onPlay = () => {
-    console.log(audioRef.value);
     audioRef.value?.play?.();
     isPlay.value = true;
   };

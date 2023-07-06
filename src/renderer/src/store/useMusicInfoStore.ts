@@ -20,7 +20,7 @@ type MusicInfoType = {
   }
 }
 // 当前音乐核心
-const useMusicStore = defineStore<'musicInfo', MusicInfoType>('musicInfo', () => {
+const useMusicStore = defineStore('musicInfo', () => {
 
   /** 当前使用歌曲数据 */
   const musicInfo = reactive<MusicInfoType>({
@@ -37,7 +37,9 @@ const useMusicStore = defineStore<'musicInfo', MusicInfoType>('musicInfo', () =>
     }
   });
 
-  return musicInfo;
+  return {
+    ...toRefs(musicInfo)
+  };
 });
 
 export default useMusicStore;
