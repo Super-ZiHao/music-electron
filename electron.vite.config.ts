@@ -19,8 +19,8 @@ export default defineConfig({
   renderer: {
     resolve: {
       alias: {
-        '@renderer': resolve('src/renderer/src'),
-        '@typings': resolve('src/typings')
+        '@renderer': resolve(__dirname, 'src/renderer/src'),
+        '@typings': resolve(__dirname, 'src/typings')
       }
     },
     plugins: [
@@ -38,7 +38,7 @@ export default defineConfig({
         dts: 'src/types/components.d.ts'
       }),
       viteEslint(),
-      viteStylelint()
+      viteStylelint(),
     ],
   }
 });

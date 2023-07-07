@@ -1,7 +1,7 @@
 <script lang='ts' setup>
 import { IconNext, IconBack } from '@renderer/components/Icon';
 import { useDebouncedRef } from '@renderer/utils/hooks';
-
+import { openQRWindows } from '@renderer/utils/ipc';
 
 /** 处理聚焦 input 下拉提示框显示隐藏逻辑 */
 const showTooltip = useDebouncedRef(false, 100);
@@ -22,6 +22,7 @@ const onFocusInput = () => {
 /** 打开二维码登陆 */
 const onOpenQR = () => {
   console.log('打开二维码');
+  openQRWindows();
 };
 </script>
 

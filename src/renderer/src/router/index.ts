@@ -12,8 +12,16 @@ const windowRoutes: RouteRecordRaw[] = [
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    name: 'name',
-    component: () => import('@renderer/pages/Home.vue')
+    name: 'index',
+    redirect: '/home',
+    children: [
+      {
+        path: '/home',
+        name: 'home',
+        component: () => import('@renderer/pages/IndexChildren/home.vue')
+      }
+    ],
+    component: () => import('@renderer/pages/index.vue')
   },
   ...windowRoutes,
 ];

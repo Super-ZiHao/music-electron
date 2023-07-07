@@ -1,13 +1,33 @@
-import { app, shell, BrowserWindow } from 'electron';
+import { app, shell, BrowserWindow, ipcMain } from 'electron';
 import { join } from 'path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import icon from '../../resources/icon.png';
+import { IpcKey } from '../typings';
 
-export let mainWindow: BrowserWindow;
+// /** 创建二维码窗口 */
+ipcMain.on(IpcKey.OPEN_QR_WINDOWS, () => {
+  const child = new BrowserWindow({
+    maxWidth: 300,
+    minWidth: 300,
+    width: 300,
+    maxHeight: 400,
+    minHeight: 400,
+    height: 400,
+    titleBarStyle: 'hidden',
+  });
+  if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
+    child.loadURL(process.env['ELECTRON_RENDERER_URL'] + '/qr-code');
+  } else {
+    child.loadFile(join(__dirname, '../renderer/index.html') + '/qr-code');
+  }
+  child.on('ready-to-show', () => {
+    child.show();
+  });
+});
 
 function createWindow(): void {
   // 创建浏览器窗口。
-  mainWindow = new BrowserWindow({
+  const mainWindow = new BrowserWindow({
     width: 1000,
     height: 670,
     show: false,
@@ -35,7 +55,6 @@ function createWindow(): void {
   // 基于electronic vite cli的渲染器HMR。
   // 加载用于开发的远程URL或用于生产的本地html文件。
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-    console.log(process.env['ELECTRON_RENDERER_URL']);
     mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL']);
   } else {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'));
