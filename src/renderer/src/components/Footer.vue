@@ -21,10 +21,6 @@ const onDown = () => {
   };
   document.addEventListener('mouseup', up);
 };
-
-watchEffect(() => {
-  console.log(currentVolume.value);
-});
 </script>
 
 <template>
@@ -35,13 +31,13 @@ watchEffect(() => {
     <!-- 信息 -->
     <div class="flex gap-8" style="width: calc(50% - 80px);">
       <img class="cover" :src="picUrl" alt="">
-      <div class="flex items-center column">
+      <div class="flex items-start column">
         <div class="flex items-center gap-2">
           <div class="color-white">{{ name }}</div>
           <div>-</div>
           <div class="fs-12">{{ authorInfo.name }}</div>
         </div>
-        <div class="">{{ dayjs(flg ? (mouseSpeed / 100 * time) :
+        <div>{{ dayjs(flg ? (mouseSpeed / 100 * time) :
           currentTime).format('mm:ss') }} / {{
     dayjs(time).format('mm:ss') }}
         </div>
@@ -58,8 +54,8 @@ watchEffect(() => {
       <div class="volume-control-container flex items-center justify-center relative">
         <ElSlider class="volume-control" :vertical="true" :model-value="isMute ? 0 : currentVolume"
           @input="(e) => onChangeVolume(e as number)" />
-        <IconVolume v-if="!isMute" class="cursor-pointer" @click="onMute" />
-        <IconMute v-else class="cursor-pointer" @click="onNotMute" />
+        <IconVolume v-if="!isMute" :size="24" class="cursor-pointer" @click="onMute" />
+        <IconMute v-else :size="24" class="cursor-pointer" @click="onNotMute" />
       </div>
     </div>
   </footer>
@@ -132,7 +128,12 @@ footer {
   }
 }
 
-.volume-control-container:hover .volume-control {
-  display: block;
+.volume-control-container {
+  width: 36px;
+  height: 36px;
+
+  &:hover .volume-control {
+    display: block;
+  }
 }
 </style>
