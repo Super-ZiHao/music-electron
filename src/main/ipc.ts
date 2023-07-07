@@ -7,12 +7,9 @@ let qr_window: BrowserWindow | undefined;
 ipcMain.on(IpcKey.OPEN_QR_WINDOWS, () => {
   if (!qr_window) {
     qr_window = new BrowserWindow({
-      maxWidth: 300,
-      minWidth: 300,
       width: 300,
-      maxHeight: 400,
-      minHeight: 400,
-      height: 400,
+      height: 450,
+      resizable: false,
       frame: false, // 使用无边框
       titleBarStyle: 'default',
       webPreferences: {

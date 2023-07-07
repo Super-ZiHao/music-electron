@@ -1,4 +1,10 @@
 <script setup lang="ts">
+import useUserStore from '@renderer/store/useUserStore';
+
+const { updateLogin } = useUserStore();
+onMounted(() => {
+  updateLogin();
+});
 </script>
 
 <template>

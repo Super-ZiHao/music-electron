@@ -9,7 +9,7 @@ const axiosApi = axios.create({
 axiosApi.interceptors.request.use(
   (config: any) => {
     // 在发送请求之前做些什么
-    console.log('config:', config);
+    // console.log('config:', config);
     // config.headers.Authorization = vm.$Cookies.get("vue_admin_token");
     return config;
   },
@@ -22,17 +22,12 @@ axiosApi.interceptors.request.use(
 axiosApi.interceptors.response.use(
   function (response) {
     // 对响应数据做点什么
-    console.log('response:', response);
-    const { code, data } = response.data;
-    if (code === 200) return data;
-      return Promise.reject(data);
+    // console.log('response:', response);
+    return response.data;
   },
   function (error) {
     // 对响应错误做点什么
-    console.log('error-response:', error.response);
-    console.log('error-config:', error.config);
-    console.log('error-request:', error.request);
-    return Promise.reject(error);
+    return error;
   }
 );
 

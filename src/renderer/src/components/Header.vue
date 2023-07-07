@@ -1,5 +1,6 @@
 <script lang='ts' setup>
 import { IconNext, IconBack } from '@renderer/components/Icon';
+import useUserStore from '@renderer/store/useUserStore';
 import { useDebouncedRef } from '@renderer/utils/hooks';
 import { openQRWindows } from '@renderer/utils/ipc';
 
@@ -17,6 +18,9 @@ const onFocusInput = () => {
   };
   document.addEventListener('click', callback);
 };
+
+/** 用户数据 */
+const { avatarUrl, name, isLogin } = storeToRefs(useUserStore());
 
 </script>
 
@@ -40,10 +44,9 @@ const onFocusInput = () => {
       </div>
 
       <!-- 头像 -->
-      <div class="flex items-center gap-4 cursor-pointer no-drag" @click="openQRWindows">
-        <div class="color-white">逾期～</div>
-        <ElAvatar class="avatar" :size="28"
-          :src="'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'" />
+      <div class="flex items-center gap-4 cursor-pointer no-drag" @click="isLogin ? undefined : openQRWindows">
+        <div class="color-white">{{ name }}</div>
+        <ElAvatar class="avatar" :size="28" :src="avatarUrl" />
       </div>
     </div>
   </header>

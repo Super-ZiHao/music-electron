@@ -1,5 +1,6 @@
-import { defineStore } from 'pinia';
-
+/**
+ * 存储当前播放音乐数据
+ */
 type MusicInfoType = {
   /** 音乐唯一 ID */
   id?: any;
