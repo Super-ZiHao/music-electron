@@ -7,7 +7,7 @@
 
 <style lang='scss' scoped>
 .sidebar {
-  width: 180px;
+  width: var(--sidebar-width);
   height: 100%;
   background-color: red;
 }

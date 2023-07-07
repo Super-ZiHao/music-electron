@@ -76,7 +76,7 @@ footer {
   justify-content: space-between;
   align-items: center;
   width: 100vw;
-  height: 60px;
+  height: var(--footer-height);
   padding: 0 24px;
   background-color: orange;
   user-select: none;
