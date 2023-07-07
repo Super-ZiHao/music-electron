@@ -12,11 +12,18 @@ const mouseSpeed = ref(currentTime.value / time.value);
 // 进度
 const speed = computed(() => currentTime.value / time.value * 100);
 
-const flg = ref(false);
-const onDown = () => {
-  flg.value = true;
+// 进度条
+const speedFlg = ref(false);
+const volumeFlg = ref(false);
+const onDown = (type: 'speed' | 'volume') => {
+  switch (type) {
+    case 'speed': speedFlg.value = true; break;
+    case 'volume': volumeFlg.value = true; break;
+    default: speedFlg.value = true;
+  }
   const up = () => {
-    flg.value = false;
+    speedFlg.value = false;
+    volumeFlg.value = false;
     document.removeEventListener('mouseup', up);
   };
   document.addEventListener('mouseup', up);
@@ -37,7 +44,7 @@ const onDown = () => {
           <div>-</div>
           <div class="fs-12">{{ authorInfo.name }}</div>
         </div>
-        <div>{{ dayjs(flg ? (mouseSpeed / 100 * time) :
+        <div>{{ dayjs(speedFlg ? (mouseSpeed / 100 * time) :
           currentTime).format('mm:ss') }} / {{
     dayjs(time).format('mm:ss') }}
         </div>
@@ -51,7 +58,8 @@ const onDown = () => {
       <IconNextSong class="cursor-pointer" />
     </div>
     <div class="flex items-center">
-      <div class="volume-control-container flex items-center justify-center relative">
+      <div :class="`volume-control-container flex items-center justify-center relative ${volumeFlg ? 'show' : ''}`"
+        @mousedown="onDown('volume')">
         <ElSlider class="volume-control" :vertical="true" :model-value="isMute ? 0 : currentVolume"
           @input="(e) => onChangeVolume(e as number)" />
         <IconVolume v-if="!isMute" :size="24" class="cursor-pointer" @click="onMute" />
@@ -131,6 +139,10 @@ footer {
 .volume-control-container {
   width: 36px;
   height: 36px;
+
+  &.show .volume-control {
+    display: block !important;
+  }
 
   &:hover .volume-control {
     display: block;
