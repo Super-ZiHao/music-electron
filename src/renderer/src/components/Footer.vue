@@ -1,7 +1,7 @@
 <script lang='ts' setup>
-import { IconPlay, IconNextSong, IconPreviousSong, IconPause, IconMute, IconVolume } from '@/components/Icon';
-import useControllerStore from '@/store/useControllerStore';
-import useMusicInfoStore from '@/store/useMusicInfoStore';
+import { IconPlay, IconNextSong, IconPreviousSong, IconPause, IconMute, IconVolume } from '@renderer/components/Icon';
+import useControllerStore from '@renderer/store/useControllerStore';
+import useMusicInfoStore from '@renderer/store/useMusicInfoStore';
 import dayjs from 'dayjs';
 const { currentTime, isPlay, isMute, currentVolume } = storeToRefs(useControllerStore());
 const { onChangeTime, onPause, onPlay, onMute, onNotMute, onChangeVolume } = useControllerStore();
@@ -76,7 +76,7 @@ footer {
   justify-content: space-between;
   align-items: center;
   width: 100vw;
-  height: 60px;
+  height: var(--footer-height);
   padding: 0 24px;
   background-color: orange;
   user-select: none;

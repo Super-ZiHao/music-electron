@@ -1,45 +1,25 @@
 <script setup lang="ts">
-import Footer from '@/components/Footer.vue';
-import Header from '@/components/Header.vue';
-import Sidebar from '@/components/Sidebar.vue';
-import useMusicStore from './store/useMusicInfoStore';
-import useControllerStore from './store/useControllerStore';
-
-const musicInfo = useMusicStore();
-const { audioRef } = toRefs(useControllerStore());
 </script>
 
 <template>
-  <audio :src="musicInfo.url" style="display: none;" ref="audioRef" />
-  <div class="container">
-    <Header />
-    <div class="content">
-      <Sidebar />
-      <div class="content-right">
-        <RouterView color="blue" />
-      </div>
-    </div>
-    <Footer />
-  </div>
+  <RouterView />
 </template>
 
 <style lang="scss">
 @import url('./style.scss');
 
-.container {
-  display: flex;
-  overflow: hidden;
-  width: 100vw;
-  height: 100vh;
-  flex-direction: column;
+:root {
+  --header-height: 48px;
+  --sidebar-width: 180px;
+  --footer-height: 60px;
+}
 
-  .content {
-    flex: 1;
-    display: flex;
+.no-drag {
+  // app 专用 让鼠标可以拖动窗口
+  -webkit-app-region: no-drag;
+}
 
-    .content-right {
-      flex: 1;
-    }
-  }
+.drag {
+  -webkit-app-region: drag;
 }
 </style>
