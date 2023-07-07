@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import Footer from '@/components/Footer.vue';
-import Header from '@/components/Header.vue';
-import Sidebar from '@/components/Sidebar.vue';
+import Footer from '@renderer/components/Footer.vue';
+import Header from '@renderer/components/Header.vue';
+import Sidebar from '@renderer/components/Sidebar.vue';
 import useMusicStore from './store/useMusicInfoStore';
 import useControllerStore from './store/useControllerStore';
 

@@ -1,6 +1,7 @@
 <script lang='ts' setup>
-import { IconNext, IconBack } from '@/components/Icon';
-import { useDebouncedRef } from '@/utils';
+import { IconNext, IconBack } from '@renderer/components/Icon';
+import { useDebouncedRef } from '@renderer/utils/hooks';
+
 
 /** 处理聚焦 input 下拉提示框显示隐藏逻辑 */
 const showTooltip = useDebouncedRef(false, 100);
@@ -17,6 +18,11 @@ const onFocusInput = () => {
   document.addEventListener('click', callback);
 };
 
+
+/** 打开二维码登陆 */
+const onOpenQR = () => {
+  console.log('打开二维码');
+};
 </script>
 
 <template>
@@ -39,7 +45,7 @@ const onFocusInput = () => {
       </div>
 
       <!-- 头像 -->
-      <div class="flex items-center gap-4 cursor-pointer no-drag">
+      <div class="flex items-center gap-4 cursor-pointer no-drag" @click="onOpenQR">
         <div class="color-white">逾期～</div>
         <ElAvatar class="avatar" :size="28"
           :src="'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'" />
