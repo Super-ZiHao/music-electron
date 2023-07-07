@@ -13,6 +13,7 @@ type IconProps = {
 
 const defaultColor = 'currentColor';
 const defaultSize = 32;
+const props: (keyof IconProps)[] = ['class', 'color', 'size'];
 /** 播放 */
 export const IconPlay = defineComponent<IconProps>((props) => {
   return () => (
@@ -24,7 +25,7 @@ export const IconPlay = defineComponent<IconProps>((props) => {
     </div>
   );
 }, {
-  props: ['size', 'color', 'class'],
+  props,
 });
 
 /** 暂停 */
@@ -38,7 +39,7 @@ export const IconPause = defineComponent<IconProps>((props) => {
     </div>
   );
 }, {
-  props: ['size', 'color', 'class'],
+  props,
 });
 
 /** 音量 */
@@ -52,7 +53,7 @@ export const IconVolume = defineComponent<IconProps>((props) => {
     </div>
   );
 }, {
-  props: ['size', 'color', 'class'],
+  props,
 });
 
 /** 静音 */
@@ -66,7 +67,7 @@ export const IconMute = defineComponent<IconProps>((props) => {
     </div >
   );
 }, {
-  props: ['size', 'color', 'class'],
+  props,
 });
 
 /** 下一首 */
@@ -80,7 +81,7 @@ export const IconNextSong = defineComponent<IconProps>((props) => {
     </div>
   );
 }, {
-  props: ['size', 'color', 'class'],
+  props,
 });
 
 /** 上一首 */
@@ -94,7 +95,7 @@ export const IconPreviousSong = defineComponent<IconProps>((props) => {
     </div>
   );
 }, {
-  props: ['size', 'color', 'class'],
+  props,
 });
 
 /** 喜欢 */
@@ -108,7 +109,7 @@ export const IconLike = defineComponent<IconProps>((props) => {
     </div>
   );
 }, {
-  props: ['size', 'color', 'class'],
+  props,
 });
 
 /** 已经喜欢 */
@@ -122,5 +123,5 @@ export const IconLiked = defineComponent<IconProps>((props) => {
     </div>
   );
 }, {
-  props: ['size', 'color', 'class'],
+  props,
 });
