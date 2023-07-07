@@ -1,10 +1,10 @@
 <script lang='ts' setup>
-import { IconPlay, IconNextSong, IconPreviousSong, IconPause } from '@/components/Icon';
+import { IconPlay, IconNextSong, IconPreviousSong, IconPause, IconMute, IconVolume } from '@/components/Icon';
 import useControllerStore from '@/store/useControllerStore';
 import useMusicInfoStore from '@/store/useMusicInfoStore';
 import dayjs from 'dayjs';
-const { currentTime, isPlay } = storeToRefs(useControllerStore());
-const { onChangeTime, onPause, onPlay } = useControllerStore();
+const { currentTime, isPlay, isMute, currentVolume } = storeToRefs(useControllerStore());
+const { onChangeTime, onPause, onPlay, onMute, onNotMute, onChangeVolume } = useControllerStore();
 const { picUrl, time, name, authorInfo } = storeToRefs(useMusicInfoStore());
 
 /** 鼠标挪动进度 */
@@ -13,7 +13,7 @@ const mouseSpeed = ref(currentTime.value / time.value);
 const speed = computed(() => currentTime.value / time.value * 100);
 
 const flg = ref(false);
-const down = () => {
+const onDown = () => {
   flg.value = true;
   const up = () => {
     flg.value = false;
@@ -21,15 +21,19 @@ const down = () => {
   };
   document.addEventListener('mouseup', up);
 };
+
+watchEffect(() => {
+  console.log(currentVolume.value);
+});
 </script>
 
 <template>
   <footer>
     <!-- 进度条 -->
-    <ElSlider :show-tooltip="false" :model-value="speed" @mousedown="down" @input="(e) => mouseSpeed = e as number"
-      @change="onChangeTime(mouseSpeed / 100000 * time)" />
+    <ElSlider class="speed-control" :show-tooltip="false" :model-value="speed" @mousedown="onDown"
+      @input="(e) => mouseSpeed = e as number" @change="onChangeTime(mouseSpeed / 100 * time)" />
     <!-- 信息 -->
-    <div class="flex gap-8">
+    <div class="flex gap-8" style="width: calc(50% - 80px);">
       <img class="cover" :src="picUrl" alt="">
       <div class="flex items-center column">
         <div class="flex items-center gap-2">
@@ -49,6 +53,14 @@ const down = () => {
       <IconPause class="cursor-pointer" v-if="isPlay" @click="onPause" />
       <IconPlay class="cursor-pointer" v-else @click="onPlay" />
       <IconNextSong class="cursor-pointer" />
+    </div>
+    <div class="flex items-center">
+      <div class="volume-control-container flex items-center justify-center relative">
+        <ElSlider class="volume-control" :vertical="true" :model-value="isMute ? 0 : currentVolume"
+          @input="(e) => onChangeVolume(e as number)" />
+        <IconVolume v-if="!isMute" class="cursor-pointer" @click="onMute" />
+        <IconMute v-else class="cursor-pointer" @click="onNotMute" />
+      </div>
     </div>
   </footer>
 </template>
@@ -82,28 +94,45 @@ footer {
   gap: 12px;
 }
 
-// 进度条容器，事件触发区
 ::v-deep(.el-slider) {
-  --el-slider-button-size: 12px;
-  --el-slider-runway-bg-color: transparent;
-  --el-slider-border-radius: 0;
 
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 20px;
-  transform: translateY(-50%);
+  // 进度条
+  &.speed-control {
+    --el-slider-button-size: 12px;
+    --el-slider-runway-bg-color: transparent;
+    --el-slider-border-radius: 0;
 
-  &:hover {
-    .el-slider__button {
-      display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    transform: translateY(-50%);
+
+    &:hover {
+      .el-slider__button {
+        display: inline-block;
+      }
     }
+
+    // 控制器
+    .el-slider__button {
+      display: none;
+    }
+
   }
 
-  // 控制器
-  .el-slider__button {
+  &.volume-control {
+    position: absolute;
     display: none;
+    height: 120px;
+    padding: 12px 0;
+    background-color: peru;
+    border-radius: 8px;
+    transform: translate(0%, -76px);
   }
+}
 
+.volume-control-container:hover .volume-control {
+  display: block;
 }
 </style>

@@ -23,6 +23,9 @@ div, ul, li, ol, main, footer, h1, h2, h3, h4, h5, h6 {
   box-sizing: border-box;
 }
 
+.relative { position: relative }
+.absolute { position: absolute }
+
 .flex { display: flex }
 .items-center { align-items: center }
 .justify-center { justify-content: center }

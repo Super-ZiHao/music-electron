@@ -28,13 +28,13 @@ export default defineConfig({
       optimizeCssModules(),
       AutoImport({
         resolvers: [ElementPlusResolver()],
-        dts: 'src/renderer/src/types/auto-imports.d.ts', // 用于生成自动导入到类型，方便代码提示
+        dts: 'src/types/auto-imports.d.ts', // 用于生成自动导入到类型，方便代码提示
         imports: ['vue', 'pinia', 'vue-router'],
       }),
       Components({
         resolvers: [ElementPlusResolver()],
         dirs: ['src/no-use'], // 除了 element-plus 其余不使用
-        dts: 'src/renderer/src/types/components.d.ts'
+        dts: 'src/types/components.d.ts'
       }),
       viteEslint(),
       viteStylelint()
