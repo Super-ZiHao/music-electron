@@ -1,28 +1,43 @@
 import { app, shell, BrowserWindow, ipcMain } from 'electron';
 import { join } from 'path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
-import icon from '../../resources/icon.png';
-import { IpcKey } from '../typings';
+import { IpcKey } from '@renderer/types';
 
-// /** 创建二维码窗口 */
+let qr_window: BrowserWindow | undefined;
+/** 创建二维码窗口 */
 ipcMain.on(IpcKey.OPEN_QR_WINDOWS, () => {
-  const child = new BrowserWindow({
-    maxWidth: 300,
-    minWidth: 300,
-    width: 300,
-    maxHeight: 400,
-    minHeight: 400,
-    height: 400,
-    titleBarStyle: 'hidden',
-  });
-  if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-    child.loadURL(process.env['ELECTRON_RENDERER_URL'] + '/qr-code');
+  if (!qr_window) {
+    qr_window = new BrowserWindow({
+      maxWidth: 300,
+      minWidth: 300,
+      width: 300,
+      maxHeight: 400,
+      minHeight: 400,
+      height: 400,
+      frame: false, // 使用无边框
+      titleBarStyle: 'default',
+      webPreferences: {
+        preload: join(__dirname, '../preload/index.js'),
+        sandbox: false
+      },
+    });
+    if (is.dev) {
+      qr_window.loadURL(process.env['ELECTRON_RENDERER_URL'] + '/qr-code');
+    } else {
+      qr_window.loadFile(join(__dirname, '../renderer/index.html') + '/qr-code');
+    }
+    qr_window.on('ready-to-show', () => {
+      qr_window?.show();
+    });
   } else {
-    child.loadFile(join(__dirname, '../renderer/index.html') + '/qr-code');
+    qr_window.show();
   }
-  child.on('ready-to-show', () => {
-    child.show();
-  });
+});
+
+/** 关闭二维码窗口 */
+ipcMain.on(IpcKey.CLOSE_QR_WINDOWS, () => {
+  qr_window?.close();
+  qr_window = undefined;
 });
 
 function createWindow(): void {
@@ -32,7 +47,6 @@ function createWindow(): void {
     height: 670,
     show: false,
     autoHideMenuBar: true,
-    ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false

@@ -18,16 +18,10 @@ const onFocusInput = () => {
   document.addEventListener('click', callback);
 };
 
-
-/** 打开二维码登陆 */
-const onOpenQR = () => {
-  console.log('打开二维码');
-  openQRWindows();
-};
 </script>
 
 <template>
-  <header>
+  <header class="drag">
     <div class="flex items-center pr-16 justify-end gap-16" style="width:180px">
       <IconBack class="cursor-pointer no-drag" :size="24" color="white" />
       <IconNext class="cursor-pointer no-drag" :size="24" color="white" />
@@ -46,7 +40,7 @@ const onOpenQR = () => {
       </div>
 
       <!-- 头像 -->
-      <div class="flex items-center gap-4 cursor-pointer no-drag" @click="onOpenQR">
+      <div class="flex items-center gap-4 cursor-pointer no-drag" @click="openQRWindows">
         <div class="color-white">逾期～</div>
         <ElAvatar class="avatar" :size="28"
           :src="'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'" />
@@ -56,17 +50,12 @@ const onOpenQR = () => {
 </template>
 
 <style lang="scss" scoped>
-.no-drag {
-  -webkit-app-region: no-drag;
-}
-
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: var(--header-height);
   background-color: #292929;
-  -webkit-app-region: drag;
   user-select: none;
 }
 

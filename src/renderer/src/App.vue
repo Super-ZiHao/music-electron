@@ -13,4 +13,13 @@
   --sidebar-width: 180px;
   --footer-height: 60px;
 }
+
+.no-drag {
+  // app 专用 让鼠标可以拖动窗口
+  -webkit-app-region: no-drag;
+}
+
+.drag {
+  -webkit-app-region: drag;
+}
 </style>

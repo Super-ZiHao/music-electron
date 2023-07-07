@@ -1,5 +1,13 @@
-import { IpcKey } from '@typings/index';
+import { IpcKey } from '@renderer/types';
 
+const { ipcRenderer } = window.electron;
+
+/** 打开二维码登陆窗口 */
 export const openQRWindows = () => {
-  console.log(window.electron.ipcRenderer.send(IpcKey.OPEN_QR_WINDOWS));
+  ipcRenderer?.send(IpcKey.OPEN_QR_WINDOWS);
 };
+
+export const closeQRWindows = () => {
+  ipcRenderer?.send(IpcKey.CLOSE_QR_WINDOWS);
+};
+

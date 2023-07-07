@@ -33,7 +33,6 @@ export default defineConfig({
   resolve: {
     alias: {
       '@renderer': resolve(__dirname, 'src/renderer/src'),
-      '@typings': resolve('src/typings')
     }
   },
   server: {

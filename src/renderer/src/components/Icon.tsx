@@ -154,3 +154,17 @@ export const IconNext = defineComponent<IconProps>((props) => {
 }, {
   props,
 });
+
+/** 关闭 */
+export const IconClose = defineComponent<IconProps>((props) => {
+  return () => (
+    <div class={`music-icon ${props.class}`} style={{ width: `${props.size ?? defaultSize}px`, height: `${props.size ?? defaultSize}px` }
+    }>
+      <svg width="100%" height="100%" viewBox="0 0 1024 1024">
+        <path d="M453.44 512L161.472 220.032a41.408 41.408 0 0 1 58.56-58.56L512 453.44 803.968 161.472a41.408 41.408 0 0 1 58.56 58.56L570.56 512l291.968 291.968a41.408 41.408 0 0 1-58.56 58.56L512 570.56 220.032 862.528a41.408 41.408 0 0 1-58.56-58.56L453.44 512z" fill={props.color ?? defaultColor}></path>
+      </svg>
+    </div>
+  );
+}, {
+  props,
+});
