@@ -1,1 +1,1 @@
-import 'QR';
+import './QR.ts';

@@ -3,7 +3,7 @@ import { IconNext, IconBack } from '@renderer/components/Icon';
 import useUserStore from '@renderer/store/useUserStore';
 import { useDebouncedRef } from '@renderer/utils/hooks';
 import { openQRWindows } from '@renderer/utils/ipc';
-import { loginOutApi } from '@renderer/api/login';
+import api from '@renderer/api';
 
 /** 处理聚焦 input 下拉提示框显示隐藏逻辑 */
 const showTooltip = useDebouncedRef(false, 100);
@@ -36,7 +36,7 @@ const onClickHead = () => {
 
 /** 退出登陆 */
 const onLogout = () => {
-  loginOutApi().then(() => {
+  api.login().logout().then(() => {
     updateLogin();
   });
 };

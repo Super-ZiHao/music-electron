@@ -1,53 +1,20 @@
+import { LoginApiType, LoginStatusResponse, LogoutResponse, QRKeyResponse, QRStatusResponse, QRUrlResponse } from '@renderer/typings/login';
 import axiosApi from './axios';
 
-type QEKeyData = { code: number, unikey: string };
 /** 获取二维码 key */
-export const getQRKeyApi = () => new Promise<QEKeyData>((resolve, reject) => {
-  axiosApi.get('login/qr/key').then((data: any) => {
-    resolve(data.data);
-  })
-  .catch(err => reject(err));
-});
+const getQRKey = () => axiosApi.get('login/qr/key').then((data: any) => data.data as QRKeyResponse);
 
-type QEUrlData = { qrimg: string, qrurl: string };
 /** 获取二维码 url */
-export const getQRUrlApi = (key: string) => new Promise<QEUrlData>((resolve, reject) => {
-  axiosApi.get(`login/qr/create?key=${key}`).then((data: any) => {
-    resolve(data.data);
-  })
-  .catch(err => reject(err));
-});
+const getQRUrl = (key: string) => axiosApi.get(`login/qr/create?key=${key}`).then((data: any) =>  data.data as QRUrlResponse);
 
-type StatusType = {
-  code: number;
-  message: string;
-  cookie: string;
-}
 /** 获取二维码当前状态 */
-export const getQRStatusApi = (key: string) => new Promise<StatusType>((resolve, reject) => {
+const getQRStatus = (key: string) => new Promise<QRStatusResponse>((resolve, rej) => {
   const time = new Date().getTime();
-  axiosApi.get(`login/qr/check?key=${key}&time=${time}`).then((data: any) => {
-    resolve(data);
-  })
-  .catch(err => reject(err));
+  axiosApi.get(`login/qr/check?key=${key}&time=${time}`).then(res => resolve(res as any)).catch(err => rej(err));
 });
 
-type LoginStatus = {
-  /** 头像 */
-  avatarImgId: number;
-  avatarUrl: string;
-  /** 用户昵称 */
-  name: string;
-  /** 用户id */
-  id: number;
-  /** 个签 */
-  signature: string;
-  /** 封面图 */
-  backgroundImgId: number;
-  backgroundUrl: string;
-}
 /** 登陆状态 */
-export const getLoginStatusApi = () => new Promise<LoginStatus | undefined>((resolve, reject) => {
+const getLoginStatus = () => new Promise<LoginStatusResponse | undefined>((resolve, reject) => {
   axiosApi.get('login/status').then((res: any) => {
     const data = res.data.profile;
     resolve(data ? ({
@@ -59,13 +26,18 @@ export const getLoginStatusApi = () => new Promise<LoginStatus | undefined>((res
       avatarImgId: data.avatarImgId,
       avatarUrl: data.avatarUrl,
     }) : undefined);
-  })
-  .catch(err => reject(err));
+  }).catch(err => reject(err));
 });
 
-export const loginOutApi = () => new Promise((resolve, reject) => {
-  axiosApi.get(`logout?cookie=${localStorage.getItem('cookie')}`).then((res: any) => {
-    resolve(res);
-  })
-  .catch(err => reject(err));
-});
+/** 登出 */
+const logout = () => new Promise<LogoutResponse>((resolve, reject) => axiosApi.get(`logout?cookie=${localStorage.getItem('cookie')}`)
+  .then(res => resolve(res as any))
+  .catch(err => reject(err)));
+
+export const loginApi: LoginApiType = {
+  getQRKey,
+  getQRUrl,
+  getQRStatus,
+  getLoginStatus,
+  logout,
+};

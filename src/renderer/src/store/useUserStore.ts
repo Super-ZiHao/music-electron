@@ -1,4 +1,4 @@
-import { getLoginStatusApi } from '@renderer/api/login';
+import api from '@renderer/api';
 
 /**
  * 当前登陆用户的状态和信息
@@ -31,7 +31,7 @@ const useUserStore = defineStore('user', () => {
 
   /** 更新 login 状态 */
   const updateLogin = () => {
-    getLoginStatusApi().then(res => {
+    api.login().getLoginStatus().then(res => {
       if (res)  {
         status.isLogin = true;
         userInfo.id = res.id;
