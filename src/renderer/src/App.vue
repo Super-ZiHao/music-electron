@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IpcKey } from '@renderer/types';
+import { IpcKey } from '@typings/index';
 import useUserStore from '@renderer/store/useUserStore';
 
 const { updateLogin } = useUserStore();

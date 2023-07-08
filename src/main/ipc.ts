@@ -1,5 +1,5 @@
 import { is } from '@electron-toolkit/utils';
-import { IpcKey } from '@renderer/types';
+import { IpcKey } from '@typings/index';
 import { BrowserWindow, ipcMain } from 'electron';
 import { join } from 'path';
 import { mainWindow } from './index';
