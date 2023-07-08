@@ -1,7 +1,7 @@
 import { app, shell, BrowserWindow } from 'electron';
 import { join } from 'path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
-import './ipc';
+import './ipcMains';
 
 export let mainWindow: BrowserWindow;
 function createWindow(): void {

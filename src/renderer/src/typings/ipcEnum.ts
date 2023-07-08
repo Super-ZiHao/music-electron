@@ -1,4 +1,10 @@
-export enum IpcKey {
+/**
+ * 本文件存储进程之间交互的 Key
+ */
+
+
+/** 二维码窗口相关Key */
+export enum QR_Ipc_Key {
   /** 打开二维码窗口 */
   OPEN_QR_WINDOWS = 'open-qr-windows',
   /** 关闭二维码窗口 */
