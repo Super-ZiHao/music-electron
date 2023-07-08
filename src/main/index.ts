@@ -3,16 +3,17 @@ import { join } from 'path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import './ipc';
 
+export let mainWindow: BrowserWindow;
 function createWindow(): void {
   // 创建浏览器窗口。
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 1000,
     height: 670,
     show: false,
     autoHideMenuBar: true,
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
+      sandbox: false,
     },
     frame: false, // 使用无边框
     titleBarStyle: 'hidden', // 使用 mac 原生自带的小绿灯

@@ -2,13 +2,15 @@ import { is } from '@electron-toolkit/utils';
 import { IpcKey } from '@renderer/types';
 import { BrowserWindow, ipcMain } from 'electron';
 import { join } from 'path';
+import { mainWindow } from './index';
+
 let qr_window: BrowserWindow | undefined;
 /** 创建二维码窗口 */
 ipcMain.on(IpcKey.OPEN_QR_WINDOWS, () => {
   if (!qr_window) {
     qr_window = new BrowserWindow({
       width: 300,
-      height: 450,
+      height: 400,
       resizable: false,
       frame: false, // 使用无边框
       titleBarStyle: 'default',
@@ -31,7 +33,10 @@ ipcMain.on(IpcKey.OPEN_QR_WINDOWS, () => {
 });
 
 /** 关闭二维码窗口 */
-ipcMain.on(IpcKey.CLOSE_QR_WINDOWS, () => {
+ipcMain.on(IpcKey.CLOSE_QR_WINDOWS, (e, cookie?: string) => {
+  if (cookie) { // 发送cookie返回给主窗口
+    mainWindow?.webContents.send(IpcKey.QR_TO_INDEX, cookie);
+  }
   qr_window?.close();
   qr_window = undefined;
 });

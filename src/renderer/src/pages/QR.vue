@@ -15,14 +15,15 @@ onMounted(() => {
     .then(key => {
       getQRUrlApi(key.unikey)
         .then(url => {
-          QRCode.toCanvas(qrRef.value, url.qrurl);
+          QRCode.toCanvas(qrRef.value, url.qrurl, {
+            width: 300,
+          });
           timer = setInterval(() => {
             getQRStatusApi(key.unikey).then(res => {
-              console.log(res);
               if (res.code === 803) {
                 clearInterval(timer);
                 updateLogin();
-                closeQRWindows();
+                closeQRWindows(res.cookie);
               }
             });
           }, 1000);
@@ -60,7 +61,6 @@ main {
 
 .qe-img {
   width: 80%;
-  margin: 24px auto 0;
   aspect-ratio: 1;
 }
 </style>

@@ -33,7 +33,6 @@ const useUserStore = defineStore('user', () => {
   const updateLogin = () => {
     getLoginStatusApi().then(res => {
       if (res)  {
-        console.log(res);
         status.isLogin = true;
         userInfo.id = res.id;
         userInfo.avatarImgId = res.avatarImgId;
@@ -46,8 +45,7 @@ const useUserStore = defineStore('user', () => {
         status.isLogin = false;
       }
     })
-    .catch(err => {
-      console.log(err, '错误');
+    .catch(() => {
       status.isLogin = false;
     });
   };

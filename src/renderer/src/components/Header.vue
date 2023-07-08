@@ -3,6 +3,7 @@ import { IconNext, IconBack } from '@renderer/components/Icon';
 import useUserStore from '@renderer/store/useUserStore';
 import { useDebouncedRef } from '@renderer/utils/hooks';
 import { openQRWindows } from '@renderer/utils/ipc';
+import { loginOutApi } from '@renderer/api/login';
 
 /** 处理聚焦 input 下拉提示框显示隐藏逻辑 */
 const showTooltip = useDebouncedRef(false, 100);
@@ -21,7 +22,24 @@ const onFocusInput = () => {
 
 /** 用户数据 */
 const { avatarUrl, name, isLogin } = storeToRefs(useUserStore());
+const { updateLogin } = useUserStore();
 
+/** 头像逻辑 */
+const dropDownRef = ref();
+const onClickHead = () => {
+  if (isLogin?.value) {
+    dropDownRef.value.handleOpen();
+  } else {
+    openQRWindows();
+  }
+};
+
+/** 退出登陆 */
+const onLogout = () => {
+  loginOutApi().then(() => {
+    updateLogin();
+  });
+};
 </script>
 
 <template>
@@ -43,11 +61,19 @@ const { avatarUrl, name, isLogin } = storeToRefs(useUserStore());
         </div>
       </div>
 
+
       <!-- 头像 -->
-      <div class="flex items-center gap-4 cursor-pointer no-drag" @click="isLogin ? undefined : openQRWindows">
-        <div class="color-white">{{ name }}</div>
-        <ElAvatar class="avatar" :size="28" :src="avatarUrl" />
-      </div>
+      <ElDropdown trigger="contextmenu" ref="dropDownRef">
+        <div class="flex items-center gap-4 cursor-pointer no-drag" @click="onClickHead">
+          <div class="color-white">{{ name }}</div>
+          <ElAvatar class="avatar" :size="28" :src="avatarUrl" />
+        </div>
+        <template #dropdown>
+          <ElDropdownMenu>
+            <ElDropdownItem @click="onLogout">退出登陆</ElDropdownItem>
+          </ElDropdownMenu>
+        </template>
+      </ElDropdown>
     </div>
   </header>
 </template>

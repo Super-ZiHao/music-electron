@@ -48,8 +48,8 @@ type LoginStatus = {
 }
 /** 登陆状态 */
 export const getLoginStatusApi = () => new Promise<LoginStatus | undefined>((resolve, reject) => {
-  axiosApi.get('login/status').then((red: any) => {
-    const data = red.data.profile;
+  axiosApi.get('login/status').then((res: any) => {
+    const data = res.data.profile;
     resolve(data ? ({
       id: data.userId,
       name: data.nickname,
@@ -59,6 +59,13 @@ export const getLoginStatusApi = () => new Promise<LoginStatus | undefined>((res
       avatarImgId: data.avatarImgId,
       avatarUrl: data.avatarUrl,
     }) : undefined);
+  })
+  .catch(err => reject(err));
+});
+
+export const loginOutApi = () => new Promise((resolve, reject) => {
+  axiosApi.get(`logout?cookie=${localStorage.getItem('cookie')}`).then((res: any) => {
+    resolve(res);
   })
   .catch(err => reject(err));
 });

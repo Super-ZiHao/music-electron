@@ -7,7 +7,6 @@ export const openQRWindows = () => {
   ipcRenderer?.send(IpcKey.OPEN_QR_WINDOWS);
 };
 
-export const closeQRWindows = () => {
-  ipcRenderer?.send(IpcKey.CLOSE_QR_WINDOWS);
+export const closeQRWindows = (cookie?: string) => {
+  ipcRenderer?.send(IpcKey.CLOSE_QR_WINDOWS, cookie);
 };
-

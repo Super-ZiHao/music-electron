@@ -7,10 +7,8 @@ const axiosApi = axios.create({
 });
 
 axiosApi.interceptors.request.use(
-  (config: any) => {
+  (config) => {
     // 在发送请求之前做些什么
-    // console.log('config:', config);
-    // config.headers.Authorization = vm.$Cookies.get("vue_admin_token");
     return config;
   },
   (error) => {
@@ -22,7 +20,6 @@ axiosApi.interceptors.request.use(
 axiosApi.interceptors.response.use(
   function (response) {
     // 对响应数据做点什么
-    // console.log('response:', response);
     return response.data;
   },
   function (error) {
