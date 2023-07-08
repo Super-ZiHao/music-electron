@@ -1,5 +1,6 @@
-import { defineStore } from 'pinia';
-
+/**
+ * 当前播放器控制以及播放器状态
+ */
 type ContersollerType = {
   /** 是否播放 */
   isPlay: boolean;

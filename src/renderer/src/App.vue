@@ -1,4 +1,17 @@
 <script setup lang="ts">
+import { QR_Ipc_Key } from '@typings/ipcEnum';
+import useUserStore from '@renderer/store/useUserStore';
+
+const { updateLogin } = useUserStore();
+onMounted(() => {
+  updateLogin();
+});
+
+/** 登录成功后接受二维码窗口返回的 cookies */
+window.electron.ipcRenderer.on(QR_Ipc_Key.QR_TO_INDEX, (e, cookie: string) => {
+  localStorage.setItem('cookie', encodeURIComponent(cookie));
+});
+
 </script>
 
 <template>

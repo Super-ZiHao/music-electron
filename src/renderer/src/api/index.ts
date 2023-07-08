@@ -1,20 +1,14 @@
-interface ApiInterface {
-  /** 游客登陆 */
-  Anonimous: () => void;
+import { LoginApiType } from '@renderer/typings/login';
+import { loginApi } from './login';
+
+interface API {
+  login():LoginApiType;
 }
 
-class Api implements ApiInterface {
-  Anonimous() {
-    console.log('游客登陆');
+class Api implements API {
+  login() {
+    return loginApi;
   }
 }
 
-let api: any = null;
-const useApi: () => ApiInterface = () => {
-  if (!api) {
-    api = new Api();
-  }
-  return api;
-};
-
-export default useApi;
+export default new Api();
