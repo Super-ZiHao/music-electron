@@ -1,6 +1,6 @@
 import api from '@renderer/api';
 import { LoginStatusResponse } from '@renderer/typings/api/login';
-import { UserPlayListResponse } from '@renderer/typings/api/user';
+import { UserPlayListResponse } from '@renderer/typings/api/paylist';
 
 /**
  * 当前登陆用户的状态和信息
@@ -45,7 +45,7 @@ const useUserStore = defineStore('user', () => {
 
   watchEffect(() => {
     if (userInfo.id) {
-      api.user().getUserPlayList(userInfo.id)
+      api.playList().getUserPlayList(userInfo.id)
         .then(res => userInfo.playList = res);
     }
   });

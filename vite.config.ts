@@ -8,6 +8,5 @@ export default defineConfig({
   ...RENDERER_CONFIG,
   server: {
     open: true,
-    port: 3000,
   },
 });

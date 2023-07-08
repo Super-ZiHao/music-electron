@@ -1,19 +1,19 @@
 import { LoginApi } from '@renderer/typings/api/login';
-import { UserApi } from '@renderer/typings/api/user';
+import { PlayListApi } from '@renderer/typings/api/paylist';
 import { loginApi } from './login';
-import { userApi } from './user';
+import { playListApi } from './playList';
 
 interface API {
   login(): LoginApi;
-  user(): UserApi;
+  playList(): PlayListApi;
 }
 
 class Api implements API {
   login() {
     return loginApi;
   }
-  user(): UserApi {
-    return userApi;
+  playList(): PlayListApi {
+    return playListApi;
   }
 }
 

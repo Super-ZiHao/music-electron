@@ -1,4 +1,16 @@
 <script lang='ts' setup>
+import api from '@renderer/api';
+import useUserStore from '@renderer/store/useUserStore';
+
+const { playList } = storeToRefs(useUserStore());
+
+watchEffect(() => {
+  if (playList.value.length && playList.value[0]) {
+    api.playList()
+      .getPlayListDetails(playList.value[0].id);
+  }
+});
+
 </script>
 
 <template>
