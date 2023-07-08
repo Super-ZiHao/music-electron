@@ -27,7 +27,6 @@ const useMusicStore = defineStore('musicInfo', () => {
   const musicInfo = reactive<MusicInfoType>({
     id: 2020033539,
     type: 'mp3',
-    // url: 'http://m801.music.126.net/2023070610618/a36d229501e72f4ee6bc8cf22de51914/jdymusic/obj/wo3DlMOGwrbDjj7DisKw/24600468622/21d9/e7bc/feaa/17aad0d1bcecf99b9470356c6e31abee.mp3',
     url: 'https://music.163.com/song/media/outer/url?id=2020033539',
     picUrl: 'https://p2.music.126.net/jx3orXlYv0HkCEzS4FNv_Q==/109951168287045764.jpg',
     name: '破败花园',

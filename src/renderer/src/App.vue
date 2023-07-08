@@ -8,7 +8,7 @@ onMounted(() => {
 });
 
 /** 登录成功后接受二维码窗口返回的 cookies */
-window.electron.ipcRenderer.on(QR_Ipc_Key.QR_TO_INDEX, (e, cookie: string) => {
+window.electron?.ipcRenderer.on(QR_Ipc_Key.QR_TO_INDEX, (e, cookie: string) => {
   localStorage.setItem('cookie', encodeURIComponent(cookie));
 });
 

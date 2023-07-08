@@ -1,4 +1,4 @@
-import { LoginApiType, LoginStatusResponse, LogoutResponse, QRKeyResponse, QRStatusResponse, QRUrlResponse } from '@renderer/typings/login';
+import { LoginApi, LoginStatusResponse, LogoutResponse, QRKeyResponse, QRStatusResponse, QRUrlResponse } from '@renderer/typings/api/login';
 import axiosApi from './axios';
 
 /** 获取二维码 key */
@@ -21,9 +21,7 @@ const getLoginStatus = () => new Promise<LoginStatusResponse | undefined>((resol
       id: data.userId,
       name: data.nickname,
       signature: data.signature,
-      backgroundImgId: data.backgroundImgId,
       backgroundUrl: data.backgroundUrl,
-      avatarImgId: data.avatarImgId,
       avatarUrl: data.avatarUrl,
     }) : undefined);
   }).catch(err => reject(err));
@@ -34,7 +32,7 @@ const logout = () => new Promise<LogoutResponse>((resolve, reject) => axiosApi.g
   .then(res => resolve(res as any))
   .catch(err => reject(err)));
 
-export const loginApi: LoginApiType = {
+export const loginApi: LoginApi = {
   getQRKey,
   getQRUrl,
   getQRStatus,

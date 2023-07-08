@@ -13,12 +13,17 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/',
     name: 'index',
-    redirect: '/home',
+    redirect: 'like',
     children: [
       {
-        path: '/home',
+        path: 'home',
         name: 'home',
         component: () => import('@renderer/pages/IndexChildren/home.vue')
+      },
+      {
+        path: 'like',
+        name: 'like',
+        component: () => import('@renderer/pages/IndexChildren/like.vue')
       }
     ],
     component: () => import('@renderer/pages/index.vue')

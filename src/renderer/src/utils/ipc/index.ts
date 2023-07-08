@@ -1,6 +1,7 @@
 import { QR_Ipc_Key } from '@typings/ipcEnum';
 
-const { ipcRenderer } = window.electron;
+const electron = window?.electron;
+const ipcRenderer = electron?.ipcRenderer;
 
 /** 打开二维码登陆窗口 */
 export const openQRWindows = () => {
