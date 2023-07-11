@@ -83,6 +83,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-shrink: 0;
   height: var(--header-height);
   background-color: #292929;
   user-select: none;
@@ -92,9 +93,10 @@ header {
   position: absolute;
   top: var(--header-height);
   left: 0;
+  z-index: 10;
   width: 300px;
   height: calc(100vh - var(--header-height) - var(--footer-height));
-  background-color: white;
+  background-color: olive;
 }
 
 ::v-deep(.el-avatar) {

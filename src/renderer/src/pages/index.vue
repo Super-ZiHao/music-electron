@@ -5,12 +5,37 @@ import Sidebar from '@renderer/components/Sidebar.vue';
 import useMusicStore from '@renderer/store/useMusicInfoStore';
 import useControllerStore from '@renderer/store/useControllerStore';
 
-const musicInfo = useMusicStore();
-const { audioRef } = toRefs(useControllerStore());
+const { id } = storeToRefs(useMusicStore());
+const { audioRef, isPlay } = toRefs(useControllerStore());
+const { onPause, onPlay } = useControllerStore();
+
+/** 监听空格 */
+onMounted(() => {
+  let flg = true;
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (!(e.code === 'Space' || e.keyCode === 32) || !flg) return;
+    if (isPlay.value) {
+      onPause();
+    } else {
+      onPlay();
+    }
+    flg = false;
+  };
+  const handleKeyUp = (e: KeyboardEvent) => {
+    if (!(e.code === 'Space' || e.keyCode === 32)) return;
+    flg = true;
+  };
+  window.addEventListener('keydown', handleKeyDown);
+  window.addEventListener('keyup', handleKeyUp);
+  onUnmounted(() => {
+    window.removeEventListener('keydown', handleKeyDown);
+    window.removeEventListener('keyup', handleKeyUp);
+  });
+});
 </script>
 
 <template>
-  <audio :src="musicInfo.url" style="display: none;" ref="audioRef" />
+  <audio :src="`https://music.163.com/song/media/outer/url?id=${id}`" style="display: none;" ref="audioRef" />
   <div class="container">
     <Header />
     <div class="content">

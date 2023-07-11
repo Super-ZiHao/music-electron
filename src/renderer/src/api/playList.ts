@@ -1,4 +1,4 @@
-import { PlayListApi, UserPlayListResponse } from '@renderer/typings/api/paylist';
+import { PlayListApi, MusicInfoType, UserPlayListResponse } from '@renderer/typings/api/paylist';
 import axiosApi from './axios';
 
 /** 获取用户歌单 */
@@ -18,7 +18,7 @@ const getUserPlayList = (id: number) => new Promise<UserPlayListResponse[]>((res
 });
 
 /** 获取我的喜欢列表所有ID */
-const getUserLikePlayListID = (id: number) => new Promise<number[][]>((resolve, reject) => {
+const getUserLikePlayListID = (id: number) => new Promise<number[]>((resolve, reject) => {
   axiosApi.get(`/likelist?uid=${id}`)
     .then((res: any) => {
       resolve(res);
@@ -27,11 +27,16 @@ const getUserLikePlayListID = (id: number) => new Promise<number[][]>((resolve, 
 });
 
 /** 获取歌单详情 */
-const getPlayListDetails = (id: number) => new Promise((resolve, reject) => {
+const getPlayListDetails = (id: number) => new Promise<MusicInfoType[]>((resolve, reject) => {
   axiosApi.get(`/playlist/track/all?id=${id}`)
-    .then(res => {
-      console.log(res);
-      resolve(res);
+    .then((res: any) => {
+      resolve(res.songs.map((item: any) => ({ 
+        ...item,
+        authors: item.ar,
+        album: item.al,
+        songPermissions: item.fee,
+        time: item.dt
+      })));
     })
     .catch(err => reject(err));
 });

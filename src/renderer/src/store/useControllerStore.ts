@@ -23,12 +23,21 @@ const useControllerStore = defineStore('controller', () => {
   });
 
   onMounted(() => {
+    let canPlayFlg = true;
     const update = (e: any) => {
       controlData.currentTime = e.target.currentTime * 1000;
     };
+    
+    const onCanPlay = () => {
+      if (canPlayFlg) return canPlayFlg = false;
+      controlData.currentTime = 0;
+      controlFun.onPlay();
+    };
+    audioRef.value?.addEventListener('canplay', onCanPlay);
     audioRef.value?.addEventListener('timeupdate', update);
     onUnmounted(() => {
       audioRef.value?.removeEventListener('timeupdate', update);
+      audioRef.value?.removeEventListener('canplay', onCanPlay);
     });
   });
 
