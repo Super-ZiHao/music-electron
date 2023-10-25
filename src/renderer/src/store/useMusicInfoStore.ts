@@ -1,3 +1,5 @@
+import useControllerStore from './useControllerStore';
+
 /**
  * 存储当前播放音乐数据
  */
@@ -18,6 +20,8 @@ export type MusicStoreInfoType = {
 }
 // 当前音乐核心
 const useMusicStore = defineStore('musicInfo', () => {
+  const { audioRef } = storeToRefs(useControllerStore());
+  const { onPause, onPlay } = useControllerStore();
 
   /** 当前使用歌曲数据 */
   const musicInfo = reactive<MusicStoreInfoType>({
@@ -33,7 +37,14 @@ const useMusicStore = defineStore('musicInfo', () => {
     ]
   });
 
+  const handlerPlay = () => {
+    onPlay();
+    audioRef.value?.removeEventListener('canplay', handlerPlay);
+  };
+
   const toggleMusic = (data: MusicStoreInfoType) => {
+    onPause();
+    audioRef.value?.addEventListener('canplay', handlerPlay);
     musicInfo.authors = data.authors;
     musicInfo.id = data.id;
     musicInfo.name = data.name;

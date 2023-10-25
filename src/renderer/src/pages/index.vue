@@ -9,7 +9,7 @@ const { id } = storeToRefs(useMusicStore());
 const { audioRef, isPlay } = toRefs(useControllerStore());
 const { onPause, onPlay } = useControllerStore();
 
-/** 监听空格 */
+/** 监听空格播放暂停 */
 onMounted(() => {
   let flg = true;
   const handleKeyDown = (e: KeyboardEvent) => {
@@ -27,7 +27,7 @@ onMounted(() => {
   };
   window.addEventListener('keydown', handleKeyDown);
   window.addEventListener('keyup', handleKeyUp);
-  onUnmounted(() => {
+  onBeforeUnmount(() => {
     window.removeEventListener('keydown', handleKeyDown);
     window.removeEventListener('keyup', handleKeyUp);
   });

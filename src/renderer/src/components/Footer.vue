@@ -54,9 +54,13 @@ const authorNmae = computed(() => authors.value.reduce((value, item) => `${value
     </div>
     <!-- 控件 -->
     <div class="control">
+      <!-- 上一首 -->
       <IconPreviousSong class="cursor-pointer" />
+      <!-- 播放 -->
       <IconPause class="cursor-pointer" v-if="isPlay" @click="onPause" />
+      <!-- 暂停 -->
       <IconPlay class="cursor-pointer" v-else @click="onPlay" />
+      <!--下一首 -->
       <IconNextSong class="cursor-pointer" />
     </div>
     <div class="flex items-center">

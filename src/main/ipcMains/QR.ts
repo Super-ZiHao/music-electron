@@ -23,9 +23,9 @@ ipcMain.on(QR_Ipc_Key.OPEN_QR_WINDOWS, () => {
       },
     });
     if (is.dev) {
-      qr_window.loadURL(process.env['ELECTRON_RENDERER_URL'] + '/qr-code');
+      qr_window.loadURL(process.env['ELECTRON_RENDERER_URL'] + '/#/qr-code');
     } else {
-      qr_window.loadFile(join(__dirname, '../renderer/index.html') + '/qr-code');
+      qr_window.loadFile(join(__dirname, '../renderer/index.html') + '/#/qr-code');
     }
     qr_window.on('ready-to-show', () => {
       qr_window?.show();

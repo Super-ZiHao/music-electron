@@ -1,4 +1,5 @@
 <script lang='ts' setup>
+import { useRequest } from 'vue-hooks-plus';
 import api from '@renderer/api';
 import useMusicStore, { MusicStoreInfoType } from '@renderer/store/useMusicInfoStore';
 import useUserStore from '@renderer/store/useUserStore';
@@ -12,27 +13,29 @@ type TableData = {
   albumName: string;
   timeString: string;
 } & MusicStoreInfoType;
-const tableData = ref<TableData[]>([]);
+
+const { data, loading, run } = useRequest(() => api.playList().getPlayListDetails(playList?.value?.[0]?.id), {
+  manual: true,
+  formatResult: (res) => res?.map((item, idx) => ({
+    id: item.id,
+    index: idx + 1,
+    authors: item.authors,
+    picUrl: item.album.picUrl,
+    name: item.name,
+    authorName: item.authors.reduce((value, author, idx) => `${value}${idx > 0 ? '、' : ''}${author.name}`, ' '),
+    albumName: item.album.name,
+    time: item.time,
+    timeString: dayjs(item.time).format('mm:ss'),
+  }))
+});
+
 watchEffect(() => {
-  if (playList.value.length && playList.value[0]) {
-    api.playList()
-      .getPlayListDetails(playList.value[0].id)
-      .then(res => {
-        tableData.value = res.map((item, idx) => ({
-          id: item.id,
-          index: idx + 1,
-          authors: item.authors,
-          picUrl: item.album.picUrl,
-          name: item.name,
-          authorName: item.authors.reduce((value, author, idx) => `${value}${idx > 0 ? '、' : ''}${author.name}`, ' '),
-          albumName: item.album.name,
-          time: item.time,
-          timeString: dayjs(item.time).format('mm:ss'),
-        }));
-      });
+  if (playList?.value?.[0]?.id) {
+    run();
   }
 });
 
+/** 更新当前播放音乐数据 */
 const { toggleMusic } = useMusicStore();
 const onToggleMusic = (e: TableData) => {
   toggleMusic({
@@ -43,7 +46,7 @@ const onToggleMusic = (e: TableData) => {
 
 <template>
   <div class="main">
-    <ElTable :data="tableData" @row-dblclick="onToggleMusic">
+    <ElTable v-loading="loading" :data="data" @row-dblclick="onToggleMusic">
       <ElTableColumn prop="index" label="" width="80" />
       <ElTableColumn class="table-name" prop="name" label="音乐名称" />
       <ElTableColumn prop="authorName" label="歌手" width="180" />
