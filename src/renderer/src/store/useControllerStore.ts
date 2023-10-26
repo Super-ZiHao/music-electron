@@ -22,16 +22,6 @@ const useControllerStore = defineStore('controller', () => {
     currentVolume: 100,
   });
 
-  onMounted(() => {
-    const update = (e: any) => {
-      controlData.currentTime = e.target.currentTime * 1000;
-    };
-    audioRef.value?.addEventListener('timeupdate', update);
-    onUnmounted(() => {
-      audioRef.value?.removeEventListener('timeupdate', update);
-    });
-  });
-
   const controlFun = {
     onPlay() { // 播放
       audioRef.value?.play?.();
@@ -71,6 +61,17 @@ const useControllerStore = defineStore('controller', () => {
       controlData.currentVolume = volume;
     }
   };
+
+  onMounted(() => {
+    const update = (e: any) => {
+      controlData.currentTime = e.target.currentTime * 1000;
+    };
+    
+    audioRef.value?.addEventListener('timeupdate', update);
+    onBeforeUnmount(() => {
+      audioRef.value?.removeEventListener('timeupdate', update);
+    });
+  });
 
   return {
     audioRef,

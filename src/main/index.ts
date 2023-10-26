@@ -8,7 +8,10 @@ function createWindow(): void {
   // 创建浏览器窗口。
   mainWindow = new BrowserWindow({
     width: 1000,
-    height: 670,
+    height: 1000,
+    // height: 670,
+    minHeight: 670,
+    minWidth: 1000,
     show: false,
     autoHideMenuBar: true,
     webPreferences: {
@@ -19,10 +22,12 @@ function createWindow(): void {
     titleBarStyle: 'hidden', // 使用 mac 原生自带的小绿灯
   });
 
-  // const child = new BrowserWindow({ parent: mainWindow, width: 300, height: 400, titleBarStyle: 'hidden', frame: false, maxWidth: 300, maxHeight: 400, minWidth: 300, minHeight: 400 });
-
   mainWindow.on('ready-to-show', () => {
     mainWindow.show();
+  });
+
+  mainWindow.webContents.openDevTools({
+    mode: 'bottom',
   });
 
   mainWindow.webContents.setWindowOpenHandler((details) => {

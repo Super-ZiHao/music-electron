@@ -23,13 +23,13 @@ export const RENDERER_CONFIG: UserConfigExport = {
     optimizeCssModules(),
     AutoImport({
       resolvers: [ElementPlusResolver()],
-      dts: '../typings/auto-imports.d.ts', // 用于生成自动导入到类型，方便代码提示
+      dts: 'src/typings/auto-imports.d.ts', // 用于生成自动导入到类型，方便代码提示
       imports: ['vue', 'pinia', 'vue-router'],
     }),
     Components({
       resolvers: [ElementPlusResolver()],
       dirs: ['src/no-use'], // 除了 element-plus 其余不使用
-      dts: '../typings/components.d.ts'
+      dts: 'src/typings/components.d.ts'
     }),
     viteEslint(),
     viteStylelint(),

@@ -1,29 +1,24 @@
 import api from '@renderer/api';
+import { LoginStatusResponse } from '@renderer/typings/api/login';
+import { UserPlayListResponse } from '@renderer/typings/api/paylist';
 
 /**
  * 当前登陆用户的状态和信息
  */
-type UserInfoType = {
-  id?: number;
-  name?: string;
-  /** 头像 */
-  avatarImgId?: number;
-  avatarUrl?: string;
-  /** 个签 */
-  signature?: string;
-  /** 封面图 */
-  backgroundImgId?: number;
-  backgroundUrl?: string;
+interface UserInfoType extends Partial<LoginStatusResponse> {
+  playList: UserPlayListResponse[]
 }
 type StatusType = {
   isLogin?: boolean;
 }
 const useUserStore = defineStore('user', () => {
   const userInfo = reactive<UserInfoType>({
+    id: undefined,
     name: '',
     avatarUrl: '',
     signature: '',
     backgroundUrl: '',
+    playList: [],
   });
   const status = reactive<StatusType>({
     isLogin: false,
@@ -35,9 +30,7 @@ const useUserStore = defineStore('user', () => {
       if (res)  {
         status.isLogin = true;
         userInfo.id = res.id;
-        userInfo.avatarImgId = res.avatarImgId;
         userInfo.avatarUrl = res.avatarUrl;
-        userInfo.backgroundImgId = res.backgroundImgId;
         userInfo.backgroundUrl = res.backgroundUrl;
         userInfo.name = res.name;
         userInfo.signature = res.signature;
@@ -49,6 +42,13 @@ const useUserStore = defineStore('user', () => {
       status.isLogin = false;
     });
   };
+
+  watchEffect(() => {
+    if (userInfo.id) {
+      api.playList().getUserPlayList(userInfo.id)
+        .then(res => userInfo.playList = res);
+    }
+  });
 
   return {
     ...toRefs(userInfo),

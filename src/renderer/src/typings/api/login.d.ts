@@ -17,24 +17,22 @@ export type QRStatusResponse = {
 
 /** 登录状态 */
 export type LoginStatusResponse = {
+  /** 用户id */
+  id: number;
   /** 头像 */
-  avatarImgId: number;
   avatarUrl: string;
   /** 用户昵称 */
   name: string;
-  /** 用户id */
-  id: number;
   /** 个签 */
   signature: string;
   /** 封面图 */
-  backgroundImgId: number;
   backgroundUrl: string;
 }
 
 /** 退出登录 */
 export type LogoutResponse = { code: number };
 
-export type LoginApiType = {
+export interface LoginApi {
   getQRKey(): Promise<QRKeyResponse>;
   getQRUrl(key: string): Promise<QRUrlResponse>;
   getQRStatus(key: string): Promise<QRStatusResponse>;

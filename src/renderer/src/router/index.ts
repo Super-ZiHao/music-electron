@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
+import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
 
 /** app 子窗口的路由 */
 const windowRoutes: RouteRecordRaw[] = [
@@ -13,12 +13,17 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/',
     name: 'index',
-    redirect: '/home',
+    redirect: 'like',
     children: [
       {
-        path: '/home',
+        path: 'home',
         name: 'home',
         component: () => import('@renderer/pages/IndexChildren/home.vue')
+      },
+      {
+        path: 'like',
+        name: 'like',
+        component: () => import('@renderer/pages/IndexChildren/like.vue')
       }
     ],
     component: () => import('@renderer/pages/index.vue')
@@ -27,7 +32,7 @@ const routes: RouteRecordRaw[] = [
 ];
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes
 });
 

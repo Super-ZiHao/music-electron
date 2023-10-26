@@ -40,6 +40,9 @@ const onLogout = () => {
     updateLogin();
   });
 };
+
+/** 搜索接口 */
+const searchValue = ref('');
 </script>
 
 <template>
@@ -52,7 +55,7 @@ const onLogout = () => {
       <!-- 搜索框 -->
       <div class="flex items-center gap-8 height-100">
         <div ref="inputRef">
-          <ElInput placeholder="搜索音乐" @focus="onFocusInput" class="no-drag" />
+          <ElInput placeholder="搜索音乐" v-model="searchValue" @focus="onFocusInput" class="no-drag" />
         </div>
         <!-- 搜索提示框 -->
         <div v-show="showTooltip" class="search-tooltip" ref="searchTooltipRef">
@@ -83,6 +86,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-shrink: 0;
   height: var(--header-height);
   background-color: #292929;
   user-select: none;
@@ -92,9 +96,10 @@ header {
   position: absolute;
   top: var(--header-height);
   left: 0;
+  z-index: 10;
   width: 300px;
   height: calc(100vh - var(--header-height) - var(--footer-height));
-  background-color: white;
+  background-color: olive;
 }
 
 ::v-deep(.el-avatar) {

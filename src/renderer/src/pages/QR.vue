@@ -30,7 +30,7 @@ onMounted(() => {
           }, 1000);
         });
     });
-  onUnmounted(() => {
+  onBeforeUnmount(() => {
     clearInterval(timer);
   });
 });
