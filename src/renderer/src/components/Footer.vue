@@ -66,10 +66,14 @@ const authorNmae = computed(() => authors.value.reduce((value, item) => `${value
     <div class="flex items-center">
       <div :class="`volume-control-container flex items-center justify-center relative ${volumeFlg ? 'show' : ''}`"
         @mousedown="onDown('volume')">
+        <!-- 音量控制器 -->
         <ElSlider class="volume-control" :vertical="true" :model-value="isMute ? 0 : currentVolume"
           @input="(e) => onChangeVolume(e as number)" />
-        <IconVolume v-if="!isMute" :size="24" class="cursor-pointer" @click="onMute" />
-        <IconMute v-else :size="24" class="cursor-pointer" @click="onNotMute" />
+
+        <!-- 未静音 -->
+        <IconVolume v-if="!isMute" :size="28" class="cursor-pointer" @click="onMute" />
+        <!-- 静音 -->
+        <IconMute v-else :size="28" class="cursor-pointer" @click="onNotMute" />
       </div>
     </div>
   </footer>
