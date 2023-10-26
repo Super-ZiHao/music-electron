@@ -59,7 +59,7 @@ const useControllerStore = defineStore('controller', () => {
       }
       audioRef.value.volume = volume / 100;
       controlData.currentVolume = volume;
-    }
+    },
   };
 
   onMounted(() => {

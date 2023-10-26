@@ -45,14 +45,14 @@ module.exports = {
         ignoreAtRules: ['function', 'if', 'else', 'else-if', 'each', 'include', 'mixin'],
       },
     ],
-    'at-rule-empty-line-before': [
-      'always',
-      {
-        except: ['blockless-after-same-name-blockless', 'first-nested'],
-        ignore: ['after-comment'],
-        ignoreAtRules: ['else', 'else-if'],
-      },
-    ],
+    // 'at-rule-empty-line-before': [
+    //   'always',
+    //   {
+    //     except: ['blockless-after-same-name-blockless', 'first-nested'],
+    //     ignore: ['after-comment'],
+    //     ignoreAtRules: ['else', 'else-if'],
+    //   },
+    // ],
     // 指定样式的排序
     'order/properties-order': [
       'position',

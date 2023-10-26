@@ -25,21 +25,23 @@ enum SongPermissions {
 export type MusicInfoType = {
   /** 歌曲 id */
   id: number;
+  /** 歌曲时长 */
+  time: number;
+  /** 封面图 */
+  picUrl?: string;
   /** 歌名 */
   name: string;
   /** 歌手 */
   authors: { id: number, name: string }[];
   /** 专辑 */
-  album: { 
+  album?: { 
     id: number;
     name: string;
     /** 专辑封面图 */
     picUrl: string;
   };
   /** 歌曲权限 */
-  songPermissions: SongPermissions
-  /** 歌曲时长 */
-  time: number;
+  songPermissions?: SongPermissions
 };
 
 export interface PlayListApi {

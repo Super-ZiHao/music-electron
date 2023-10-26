@@ -1,9 +1,11 @@
 <script lang='ts' setup>
 import { useRequest } from 'vue-hooks-plus';
 import api from '@renderer/api';
-import useMusicStore, { MusicStoreInfoType } from '@renderer/store/useMusicInfoStore';
+import useMusicStore from '@renderer/store/useMusicInfoStore';
 import useUserStore from '@renderer/store/useUserStore';
 import dayjs from 'dayjs';
+import usePlayListStore from '@renderer/store/usePlayListStore';
+import { MusicInfoType } from '@renderer/typings/api/paylist';
 
 const { playList } = storeToRefs(useUserStore());
 
@@ -12,7 +14,7 @@ type TableData = {
   authorName: string;
   albumName: string;
   timeString: string;
-} & MusicStoreInfoType;
+} & MusicInfoType;
 
 const { data, loading, run } = useRequest(() => api.playList().getPlayListDetails(playList?.value?.[0]?.id), {
   manual: true,
@@ -20,10 +22,10 @@ const { data, loading, run } = useRequest(() => api.playList().getPlayListDetail
     id: item.id,
     index: idx + 1,
     authors: item.authors,
-    picUrl: item.album.picUrl,
+    picUrl: item?.album?.picUrl,
     name: item.name,
-    authorName: item.authors.reduce((value, author, idx) => `${value}${idx > 0 ? '、' : ''}${author.name}`, ' '),
-    albumName: item.album.name,
+    authorName: item?.authors?.reduce((value, author, idx) => `${value}${idx > 0 ? '、' : ''}${author.name}`, ' '),
+    albumName: item?.album?.name,
     time: item.time,
     timeString: dayjs(item.time).format('mm:ss'),
   }))
@@ -36,9 +38,11 @@ watchEffect(() => {
 });
 
 /** 更新当前播放音乐数据 */
-const { toggleMusic } = useMusicStore();
-const onToggleMusic = (e: TableData) => {
-  toggleMusic({
+const { onToggleMusic } = useMusicStore();
+const { onUpdatePlayList } = usePlayListStore();
+const handlerToggleMusic = (e: TableData) => {
+  onUpdatePlayList(data.value ?? []);
+  onToggleMusic({
     ...e,
   });
 };
@@ -46,7 +50,7 @@ const onToggleMusic = (e: TableData) => {
 
 <template>
   <div class="main">
-    <ElTable v-loading="loading" :data="data" @row-dblclick="onToggleMusic">
+    <ElTable v-loading="loading" :data="data" @row-dblclick="handlerToggleMusic">
       <ElTableColumn prop="index" label="" width="80" />
       <ElTableColumn class="table-name" prop="name" label="音乐名称" />
       <ElTableColumn prop="authorName" label="歌手" width="180" />

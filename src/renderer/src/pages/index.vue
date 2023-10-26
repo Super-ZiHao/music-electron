@@ -2,6 +2,7 @@
 import Footer from '@renderer/components/Footer.vue';
 import Header from '@renderer/components/Header.vue';
 import Sidebar from '@renderer/components/Sidebar.vue';
+import PlayList from '@renderer/components/PlayList.vue';
 import useMusicStore from '@renderer/store/useMusicInfoStore';
 import useControllerStore from '@renderer/store/useControllerStore';
 
@@ -43,6 +44,9 @@ onMounted(() => {
       <div class="content-right">
         <RouterView color="blue" />
       </div>
+
+      <!-- 音乐列表 -->
+      <PlayList />
     </div>
     <Footer />
   </div>
@@ -57,6 +61,7 @@ onMounted(() => {
   flex-direction: column;
 
   .content {
+    position: relative;
     flex: 1;
     display: flex;
 

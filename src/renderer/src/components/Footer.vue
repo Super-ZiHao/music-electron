@@ -1,11 +1,13 @@
 <script lang='ts' setup>
-import { IconPlay, IconNextSong, IconPreviousSong, IconPause, IconMute, IconVolume } from '@renderer/components/Icon';
+import { IconPlay, IconNextSong, IconPreviousSong, IconPause, IconMute, IconVolume, IconPlayList } from '@renderer/components/Icon';
 import useControllerStore from '@renderer/store/useControllerStore';
 import useMusicInfoStore from '@renderer/store/useMusicInfoStore';
+import usePlayListStore from '@renderer/store/usePlayListStore';
 import dayjs from 'dayjs';
 const { currentTime, isPlay, isMute, currentVolume } = storeToRefs(useControllerStore());
 const { onChangeTime, onPause, onPlay, onMute, onNotMute, onChangeVolume } = useControllerStore();
 const { picUrl, time, name, authors } = storeToRefs(useMusicInfoStore());
+const { onPrev, onNext } = usePlayListStore();
 
 /** 鼠标挪动进度 */
 const mouseSpeed = ref(currentTime.value / time.value);
@@ -29,7 +31,11 @@ const onDown = (type: 'speed' | 'volume') => {
   document.addEventListener('mouseup', up);
 };
 
+// 作者名称
 const authorNmae = computed(() => authors.value.reduce((value, item) => `${value}、${item.name}`, ''));
+
+// 切换显示列表
+const { onToggleShowPlayList } = usePlayListStore();
 </script>
 
 <template>
@@ -55,21 +61,24 @@ const authorNmae = computed(() => authors.value.reduce((value, item) => `${value
     <!-- 控件 -->
     <div class="control">
       <!-- 上一首 -->
-      <IconPreviousSong class="cursor-pointer" />
+      <IconPreviousSong class="cursor-pointer" @click="onPrev" />
       <!-- 播放 -->
       <IconPause class="cursor-pointer" v-if="isPlay" @click="onPause" />
       <!-- 暂停 -->
       <IconPlay class="cursor-pointer" v-else @click="onPlay" />
       <!--下一首 -->
-      <IconNextSong class="cursor-pointer" />
+      <IconNextSong class="cursor-pointer" @click="onNext" />
     </div>
-    <div class="flex items-center">
+    <div class="flex items-center gap-16">
+
+      <IconPlayList class="cursor-pointer" :size="20" @click="onToggleShowPlayList" />
+
+      <!-- 音量模块 -->
       <div :class="`volume-control-container flex items-center justify-center relative ${volumeFlg ? 'show' : ''}`"
         @mousedown="onDown('volume')">
         <!-- 音量控制器 -->
         <ElSlider class="volume-control" :vertical="true" :model-value="isMute ? 0 : currentVolume"
           @input="(e) => onChangeVolume(e as number)" />
-
         <!-- 未静音 -->
         <IconVolume v-if="!isMute" :size="28" class="cursor-pointer" @click="onMute" />
         <!-- 静音 -->
