@@ -43,7 +43,10 @@ export type MusicInfoType = {
 };
 
 export interface PlayListApi {
-  /** 获取用户歌单 */
+  /**
+   * 获取用户歌单
+   * @param id 用户唯一ID
+   */
   getUserPlayList: (id: number) => Promise<UserPlayListResponse[]>;
   /** 获取我的喜欢所有歌 ID */
   getUserLikePlayListID: (id: number) => Promise<number[]>;

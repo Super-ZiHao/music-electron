@@ -34,7 +34,7 @@ const useUserStore = defineStore('user', () => {
         userInfo.backgroundUrl = res.backgroundUrl;
         userInfo.name = res.name;
         userInfo.signature = res.signature;
-      } else {
+      } else { // 未登录取消登录状态
         status.isLogin = false;
       }
     })
